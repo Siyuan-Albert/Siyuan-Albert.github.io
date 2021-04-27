@@ -4,20 +4,27 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title></title>
 	<style>
-		/*
-	.autocomplete-items {
+* {
+  box-sizing: border-box;
+}
+input {
 
-		position: absolute;
-		border: 1px solid #d4d4d4;
-		border-bottom: none;
-		border-top: none;
-		z-index: 99;
-		
-		top: 100%;
-		left: 0;
-		right: 0;
-	}
-	*/
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+  cursor: pointer;
+}
 	.autocomplete {
   position: relative;
   display: inline-block;
@@ -33,7 +40,9 @@
   left: 0;
   right: 0;
 }
-
+.editable-clear-x {
+	display: inline;
+}
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;
@@ -51,8 +60,8 @@
 <form autocomplete="off">
   <div class="autocomplete" style="width:300px;">
     <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    <span class="editable-clear-x">X</span>
   </div>
-  <input type="submit">
 </form>
 <script type="text/javascript">
 function autocomplete(inp, arr) {
