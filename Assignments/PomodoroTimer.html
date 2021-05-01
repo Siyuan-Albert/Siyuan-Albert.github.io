@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro Timer</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #countDownArea{
+        background-color: #000;
+        font-size:32px;
+        color:#fff;
+    }
+    </style>
+</head>
+<body>
+<input type="button" value="start" id="start">
+<input type="button" value="pause" id="pause">
+<input type="button" value="reset" id="reset">
+<input type="button" value="setDuration" id="setDuration">
+<input type="text" id="duration" value="25">
+<p >the duration is <span id="desc">25</span>min</p>
+<p id="countDownArea"></p>
+<script>
+window.onload = function(){
+    //get all elements I need
+    var oBtnStart = document.getElementById('start');
+    var oBtnPause = document.getElementById('pause');
+    var oBtnReset = document.getElementById('reset');
+    var oTextDuration = document.getElementById('duration');
+    var oBtnSetDuration = document.getElementById('setDuration');
+    var oCountDownArea = document.getElementById('countDownArea');
+    var oDesc = document.getElementById('desc');
+    var defaultDuration = 25*60*1000;
+    var timer = null;
+    var now = 0;
+ 
+    /*
+    setInterval will call the function repeated,until clearInterval() called
+    */
+
+
+    //set the duration manually
+    oBtnSetDuration.onclick = function(){
+
+        clearInterval(timer);
+        defaultDuration = parseInt(oTextDuration.value)*60*1000;
+        oCountDownArea.innerHTML = beautyTime(defaultDuration);
+        oDesc.innerHTML = parseInt((defaultDuration)/60000);
+    }
+    
+ 
+    oBtnStart.onclick = function(){
+        clearInterval(timer);
+        now = Date.now();
+        oCountDownArea.innerHTML = beautyTime(defaultDuration);
+        timer = setInterval(function(){
+            var newNow = Date.now();
+            var timeDelay = defaultDuration - (newNow - now);
+            if(timeDelay <= 0){
+                clearInterval(timer);
+                oCountDownArea.innerHTML = 0;
+                return;
+            }
+            oCountDownArea.innerHTML = beautyTime(timeDelay);
+        },500);
+    }
+ 
+    oBtnPause.onclick = function(){
+        clearInterval(timer);
+    }
+ 
+    oBtnReset.onclick = function(){
+        clearInterval(timer);
+        defaultDuration = 25*60*1000;
+        oCountDownArea.innerHTML = beautyTime(defaultDuration);
+    }
+ 
+    function beautyTime(time){
+        var hour = parseInt(time/3600000);
+        var min = parseInt((time%3600000)/60000);
+        var sec = parseInt((time%60000)/1000);
+        var other = time - hour*3600000 - min * 60000 - sec*1000;
+        return hour+"hour-"+min+"min-"+sec+"sec-"+other;
+    }
+ 
+}   
+</script>   
+</body>
+</html>
