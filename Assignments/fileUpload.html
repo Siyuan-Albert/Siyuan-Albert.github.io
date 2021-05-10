@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upload file</title>
+    <style>
+        .fileUpload {
+            position: relative;
+            overflow: hidden;
+            margin: 10px 3px;
+        }
+
+        .fileUpload input.upload {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            background-color: #fff;
+            filter: alpha(opacity=0);
+        }
+
+        .filenameupload {
+            width: 98%;
+        }
+
+        #upload_prev {
+            border: thin solid #000;
+            width: 65%;
+            padding: 0.5em 1em 1.5em 1em;
+        }
+
+        #upload_prev span {
+            display: flex;
+            padding: 0 5px;
+            font-size: 12px;
+        }
+
+        p.close {
+            margin: 0 5px 0 5px;
+            cursor: pointer;
+            padding-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <form METHOD="post" ACTION="xxx@gmail.com" ENCTYPE="multipart/form-data">
+            <input id="uploadFile" placeholder="Add files from My Computer" />
+            <div class="fileUpload">
+                <input id="uploadBtn" type="file" class="upload" onchange="uploadOnChange()" />
+            </div>
+            <div id="upload_prev"></div>
+        </form> -->
+
+    <h4>another one</h4>
+    <div id="dropbox" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)"
+        style="border:1px solid black;height:100px;">
+        Drop Here
+    </div>
+    Should update here:
+    <input id="uploadFile" placeholder="Add files from My Computer" />
+    <input type="file" id="fileInput" onchange="uploadOnChange()" />
+    <div id="upload_prev"></div>
+    <script type="text/javascript">
+
+
+        var btn = document.getElementById('uploadBtn');
+        function deleteFile(id) {
+            var new_tr = id.parentNode;
+            try {
+
+                var tmp = new_tr.parentNode;
+
+                tmp.removeChild(new_tr);
+
+            } catch (e) { }
+        }
+
+        function uploadOnChange() {
+            var filelist = document.getElementById("upload_prev");
+            var file = document.getElementById("fileInput");
+            console.log("you are inside");
+            document.getElementById("uploadFile").value = file.value;
+            console.log("this.vlaue " + file.files);
+            var filename = file.value;
+            var lastIndex = filename.lastIndexOf("\\");
+            if (lastIndex >= 0) {
+                filename = filename.substring(lastIndex + 1);
+            }
+
+            var filess = file.files;
+            for (var i = 0; i < filess.length; i++) {
+                var b = document.createElement("DIV");
+                b.innerHTML = '<span>' + '<div class="filenameupload">' + filess[i].name + '</div>' + '<p class="close" onclick="deleteFile(this)">X</p></span>';
+                filelist.appendChild(b);
+            }
+
+        }
+
+
+        function dropHandler(e) {
+            var filelist = document.getElementById("upload_prev");
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "none";
+            var fileList1 = e.dataTransfer.files;
+            if (fileList1.length == 0) {
+                return false;
+            }
+            // AddFiles(fileList);
+            console.log("drag need to fix");
+            console.log("fileList1: " + fileList1.length);
+            for (var i = 0; i < fileList1.length; i++) {
+                var b = document.createElement("DIV");
+                b.innerHTML = '<span>' + '<div class="filenameupload">' + fileList1[i].name + '</div>' + '<p class="close" onclick="deleteFile(this)">X</p></span>';
+                filelist.appendChild(b);
+            }
+        }
+        function dragOverHandler(e) {
+            e.preventDefault();
+        }
+
+    </script>
+</body>
+
+</html>
